@@ -1,0 +1,44 @@
+== About Hyperscience
+
+The vast majority of information that organizations need to power processes, service customers,
+and drive business outcomes lives trapped in unstructured formats, including PDFs, documents,
+and images. With the Hyperscience Intelligent Document Processing Platform, clients set their
+target level of accuracy (typically over 99% based on internal SLAs or other compliance requirements),
+and our system automates against that using our proprietary ML. Hyperscience reads outside the box
+to handle messy handwritten forms, low-resolution images, and other document distortions with ease,
+delivering best-in-class intelligent data extraction.
+
+Our proprietary Machine Learning approach improves throughput without sacrificing accuracy. We’re
+exceptionally good at knowing when to bring in humans to review and resolve edge cases, which helps
+finetune the underlying models. Hyperscience continues to learn, lowering error rates and increasing
+automation over time.
+
+The interface of the Hyperscience Platform allows humans to teach Hyperscience and process submissions
+with ease. Our Intelligent Document Processing (IDP) platform was designed to be used by business users
+with no technical experience required. Hyperscience’s fast time-to-value is influenced by the short time
+it takes to deploy the system and integrate it within an organization’s environment.
+
+For more information, visit www.hyperscience.com.
+
+== About the Hyperscience Connector
+
+The Hyperscience connector enables easy integration between MuleSoft and Hyperscience for the purposes
+of content processing.
+
+== Associated Use Cases
+
+- Create submissions
+- Retrieve submission
+- List submissions
+
+== Contact Us
+
+Tim Wikander <tim.wikander@hyperscience.com>, Director, Corporate Development
+
+== Additional API details
+
+Our API supports many versions of the Hyperscience application. See our documentation to understand the specific
+features available in your version.
+
+https://docs.hyperscience.com/[Hyperscience's API documentation]
+
