@@ -218,7 +218,7 @@ Creates a submission using a JSON payload. This operation makes an HTTP POST req
 | Config Ref a| ConfigurationProvider |  `Name` of the configuration to use to execute this component. |  | x
 | Streaming Strategy a| * <<repeatable-in-memory-stream>>
 * <<repeatable-file-store-stream>>
-* <<non-repeatable-stream>> |  Configures how Mule processes streams. Repeatable streams are the default behavior. |  |
+* <<non-repeatable-stream>> |  Configures how Mule processes streams. Repeatable streams are the default behavior. | <<repeatable-file-store-stream>> |
 | Custom Query Parameters a| Object | Custom query parameters to include in the request. The query parameters specified here are merged with the default query parameters that are specified in the configuration. |  |
 | Custom Headers a| Object | Custom headers to include in the request. The custom headers specified here are merged with the default headers that are specified in the configuration. |  |
 | Response Timeout a| Number |  How long Mule waits for a response to complete before the request times out. |  |
@@ -287,7 +287,7 @@ Retrieves a submission using the Submission `id`. This operation makes an HTTP G
 | flat a| Boolean | Optional parameter that prevents returning the `documents`, `document_folders`, `unassigned_pages`, and `rejected_documents` arrays of the Submission object. Defaults to true unless specifically set to `false`. | False | x
 | Streaming Strategy a| * <<repeatable-in-memory-stream>>
 * <<repeatable-file-store-stream>>
-* <<non-repeatable-stream>> |  Configures how Mule processes streams. Repeatable streams are the default behavior. |  |
+* <<non-repeatable-stream>> |  Configures how Mule processes streams. Repeatable streams are the default behavior. | <<repeatable-file-store-stream>> |
 | Custom Query Parameters a| Object | Custom query parameters to include in the request. The query parameters specified here are merged with the default query parameters that are specified in the configuration. |  |
 | Custom Headers a| Object | Custom headers to include in the request. The custom headers specified here are merged with the default headers that are specified in the configuration. |  |
 | Response Timeout a| Number |  How long Mule waits for a response to complete before the request times out. |  |
@@ -366,7 +366,7 @@ Retrieves submissions. This operation makes an HTTP GET request to the api/v5/su
 | substate a| String | Filters for Submissions that are in a specific substate. See link:https://docs.hyperscience.com/#substates[Substates] for a list of possible values.| |
 | Streaming Strategy a| * <<repeatable-in-memory-stream>>
 * <<repeatable-file-store-stream>>
-* <<non-repeatable-stream>> |  Configures how Mule processes streams. Repeatable streams are the default behavior. |  |
+* <<non-repeatable-stream>> |  Configures how Mule processes streams. Repeatable streams are the default behavior. | <<repeatable-file-store-stream>> |
 | Custom Query Parameters a| Object | Custom query parameters to include in the request. The query parameters specified here are merged with the default query parameters that are specified in the configuration. |  |
 | Custom Headers a| Object | Custom headers to include in the request. The custom headers specified here are merged with the default headers that are specified in the configuration. |  |
 | Response Timeout a| Number |  How long Mule waits for a response to complete before the request times out. |  |
