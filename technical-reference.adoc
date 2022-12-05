@@ -2,9 +2,6 @@
 
 The Anypoint Connector for Hyperscience (Hyperscience Connector) provides connectivity to the Hyperscience API, enabling you to interface with Hyperscience to link:https://docs.hyperscience.com/#submission-creation[Create] (using a JSON payload), link:https://docs.hyperscience.com/#listing-submissions[List], and link:https://docs.hyperscience.com/#retrieving-submissions[Retrieve] submissions.
 
-Guide: <link_to_guide>Hyperscience Connector
-
-
 [[hyperscience-configuration]]
 == Configuration
 ---

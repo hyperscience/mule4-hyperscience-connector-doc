@@ -1,0 +1,37 @@
+= Hyperscience Connector Release Notes
+:keywords: Hyperscienceconnector
+ 
+The Hyperscience connector allows you to connect a Mule App to create, list, and retrieve submissions.
+ 
+== Hyperscience Connector 1.0.0
+ 
+The Hyperscience connector is available on Mule 4.0.
+ 
+ 
+[%header%autowidth]
+|===
+|Application/Service |Version
+|Mule Runtime        |  4.0.x and later
+|Hyperscience API    |  34.x.x and later
+|Java                |  1.8 and later
+|===
+ 
+ 
+==== Key Features
+ 
+The Hyperscience connector supports the following operations:
+ 
+* Create submissions.
+* Retrieve information about a submission.
+* List submissions.
+ 
+Before using the connector, add this dependency to your application `pom.xml`:
+ 
+```xml
+<dependency>
+   <groupId>com.mulesoft.connectors</groupId>
+   <artifactId>hyperscience</artifactId>
+   <version>1.0.0</version>
+   <classifier>mule-plugin</classifier>
+</dependency>
+```
