@@ -1,0 +1,41 @@
+== About the Hyperscience Connector
+ 
+The Hyperscience connector enables easy integration between MuleSoft and Hyperscience for the purposes of content processing.
+ 
+== Associated Use Cases
+ 
+- Create submissions
+- Retrieve submission
+- List submissions
+ 
+== Before You Begin
+ 
+To use this connector, you must be familiar with:
+ 
+- The link:https://docs.hyperscience.com/[Hyperscience API]
+- Anypoint Connectors
+- Mule runtime (Mule)
+- Elements and global elements in a Mule flow
+- Creating a Mule app using Anypoint Studio (Studio)
+ 
+Before creating an app, you must have:
+ 
+- Credentials to access the Hyperscience target resource
+- Anypoint Platform
+- Anypoint Studio 7.3 or later
+ 
+== Exchange Templates and Examples
+ 
+link:https://www.mulesoft.com/exchange/[Anypoint Exchange] provides templates that
+you can use as a starting point for your app, as well as examples that illustrate a complete solution.
+ 
+== Additional API Details
+ 
+Our API supports many versions of the Hyperscience application. See our documentation to understand the specific features available in your version.
+ 
+link:https://docs.hyperscience.com/[Hyperscience's API documentation]
+ 
+== See Also
+ 
+* xref:connectors::introduction/introduction-to-anypoint-connectors.adoc[Introduction to Anypoint Connectors]
+* link:https://help.mulesoft.com[MuleSoft Help Center]

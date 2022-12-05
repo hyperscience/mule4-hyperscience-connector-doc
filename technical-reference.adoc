@@ -1,512 +1,463 @@
 = Hyperscience Connector Reference
- 
-Anypoint Connector for Hyperscience (Hyperscience Connector) provides connectivity to the Hyperscience API, enabling you to interface with Hyperscience to link:https://docs.hyperscience.com/#submission-creation[Create] (using json payload), link:https://docs.hyperscience.com/#listing-submissions[List], and link:https://docs.hyperscience.com/#retrieving-submissions[Retrieving] Submissions.
- 
-Guide: <link_to_guide>Hyperscience Connector
- 
- 
+
+The Anypoint Connector for Hyperscience (Hyperscience Connector) provides connectivity to the Hyperscience API, enabling you to interface with Hyperscience to link:https://docs.hyperscience.com/#submission-creation[Create] (using a JSON payload), link:https://docs.hyperscience.com/#listing-submissions[List], and link:https://docs.hyperscience.com/#retrieving-submissions[Retrieve] submissions.
+
 [[hyperscience-configuration]]
 == Configuration
 ---
- 
+
 === Parameters
- 
-[%header%autowidth.spread]
+
+[%header,cols="20s,25a,30a,15a,10a"]
 |===
 | Name | Type | Description | Default Value | Required
-|Name | String | Name for this configuration. Connectors reference the configuration with this name. | | x
-| Connection a| * <<config_oauth2, Oauth2 Connection Provider>>
-* <<config_token-authentication-api, Token authentication>>
-* <<config_custom-authentication-api, Custom authentication>>
-| Connection types for this configuration. | | x
+| Name | String | Unique identifier for this configuration. Connectors reference the configuration by this name. | | x
+| Connection a| * <<config_oauth2, OAuth2.0 Connection Provider>>
+* <<config_token-authentication-api, Token Authentication Connection Provider>>
+* <<config_custom-authentication-api, Custom Authentication Connection Provider>>
+| ``Name``s of Connection Types for this configuration. | | x
 | Response Timeout a| Number |  How long Mule waits for a response to complete before the request times out. |  60 |
 | Response Timeout Unit a| Enumeration, one of:
- 
-** NANOSECONDS
-** MICROSECONDS
-** MILLISECONDS
-** SECONDS
-** MINUTES
-** HOURS
-** DAYS |  Time unit for the *Response Timeout* field. |  SECONDS |
+
+** `NANOSECONDS`
+** `MICROSECONDS`
+** `MILLISECONDS`
+** `SECONDS`
+** `MINUTES`
+** `HOURS`
+** `DAYS` |  Time unit for the *Response Timeout* field. |  `SECONDS` |
 | Streaming Type a| Enumeration, one of:
- 
-** AUTO
-** ALWAYS
-** NEVER |  How the connector streams request content to the remote service:
- 
-* `AUTO` (default)
- 
-Connector automatically uses the best streaming strategy based on the request content.
- 
-* `ALWAYS`
- 
-Connector always streams the request content.
- 
-* `NEVER`
- 
-Connector does not stream the request content. |  AUTO |
-| Name a| String |  ID used to reference this configuration. |  | x
-| Expiration Policy a| <<ExpirationPolicy>> |  Configures the minimum amount of time that a dynamic configuration instance can remain idle before Mule considers it eligible for expiration. |  |
+
+** `AUTO`
+** `ALWAYS`
+** `NEVER` |  How the connector streams request content to the remote service:
+
+* `AUTO` (default): Connector automatically uses the best streaming strategy based on the request content.
+
+* `ALWAYS`: Connector always streams the request content.
+
+* `NEVER`: Connector does not stream the request content. |  AUTO |
+| Expiration Policy a| <<expiration-policy>> |  Configures the minimum amount of time that a dynamic configuration instance can remain idle before Mule considers it eligible for expiration. |  |
 |===
- 
+
 == Connection Types
 [[config_oauth2]]
-=== Oauth2 Connection Provider
- 
-Uses oauth2.0 with client credentials grant type to authenticate.
- 
+=== OAuth2.0 Connection Provider
+
+Uses OAuth2.0 with the client-credentials grant type to authenticate.
+
 [%header,cols="20s,25a,30a,15a,10a"]
 |===
 | Name | Type | Description | Default Value | Required
 | Name a| String |  ID used to reference this configuration. |  | x
-| Base Uri a| String |  Uri of your Hyperscience instance. |  | x
-| Client Id a| String |  Oauth Client Id |  | x
-| Client Secret a| String |  Oauth Client Secret |  | x
-| Token Uri a| String |  URL of the service provider's access token endpoint. |  | x
+| Base Uri a| String |  URI of your Hyperscience instance. |  | x
+| Client Id a| String |  OAuth Client ID |  | x
+| Client Secret a| String |  OAuth Client Secret |  | x
+| Token Uri a| String |  URL of the service provider's access-token endpoint. |  | x
 | Scope a| String |  OAuth scopes to request during the OAuth dance (comma separated). | |
- 
+
 | Proxy Configuration a| One of:
- 
-* <<Proxy>>
+
+* <<proxy>>
 * None | Configures a proxy for outbound connections. |  |
-| TLS Configuration a| <<TLS>> |  Configures TLS. If using the HTTPS protocol, you must configure TLS.  |  |
-| Default Headers a| Array of <<DefaultHeader>>. |  |  |
-| Default Query Parameters a| Array of <<DefaultQueryParam>>. |  |  |
+| TLS Configuration a| <<tls>> |  Configures TLS. If using the HTTPS protocol, you must configure TLS.  |  |
+| Default Headers a| Array of <<default-header>>. |  |  |
+| Default Query Parameters a| Array of <<default-query-param>>. |  |  |
 | Connection Timeout a| Number |  How long the connector waits before timing out when establishing a connection to the remote service. |  30 |
 | Connection Timeout Unit a| Enumeration, one of:
- 
-** NANOSECONDS
-** MICROSECONDS
-** MILLISECONDS
-** SECONDS
-** MINUTES
-** HOURS
-** DAYS |  Time unit for the *Connection Timeout* field. |  SECONDS |
+
+** `NANOSECONDS`
+** `MICROSECONDS`
+** `MILLISECONDS`
+** `SECONDS`
+** `MINUTES`
+** `HOURS`
+** `DAYS` |  Time unit for the *Connection Timeout* field. |  `SECONDS` |
 | Use Persistent Connections a| Boolean |  Indicates whether to use persistent connections:
- 
-* `true`
- 
-Mule uses persistent connections.
- 
-* `false`
- 
-Mule closes the connection after the first request completes. |  true |
+
+* `true`: Mule uses persistent connections.
+
+* `false`: Mule closes the connection after the first request completes. |  true |
 | Max Connections a| Number |  Maximum number of connections to open to the backend. HTTP requests are sent in parallel over multiple connections. Setting this value too high can impact latency and consume additional resources without increasing throughput. |  -1 |
-| Connection Idle Timeout a| Number |  When persistent connections are enabled, how long a connection can remain idle before Mule closes it. |  30 |
+| Connection Idle Timeout a| Number |  When `Use Persistent Connections` is set to `true`, specifies how long a connection can remain idle before Mule closes it. |  30 |
 | Connection Idle Timeout Unit a| Enumeration, one of:
- 
-** NANOSECONDS
-** MICROSECONDS
-** MILLISECONDS
-** SECONDS
-** MINUTES
-** HOURS
-** DAYS |  Time unit for the *Connection Idle Timeout* field. |  SECONDS |
-| Stream Response a| Boolean |  If this value is `true`, Mule streams received responses. |  false |
+
+** `NANOSECONDS`
+** `MICROSECONDS`
+** `MILLISECONDS`
+** `SECONDS`
+** `MINUTES`
+** `HOURS`
+** `DAYS` |  Time unit for the *Connection Idle Timeout* field. |  `SECONDS` |
+| Stream Response a| Boolean |  If set to `true`, Mule streams received responses. |  false |
 | Response Buffer Size a| Number |  Size of the buffer that stores the HTTP response, in bytes. |  -1 |
-| Reconnection a| <<Reconnection>> |  Configures a reconnection strategy to use when a connector operation fails to connect to an external server. |  |
+| Reconnection a| <<reconnection>> |  Configures a reconnection strategy to use when a connector operation fails to connect to an external server. |  |
 |===
- 
- 
+
+
 [[config_token-authentication-api]]
 === Token Authentication Connection Provider
- 
+
 Uses a token to authenticate the connection.
- 
+
 [%header,cols="20s,25a,30a,15a,10a"]
 |===
 | Name | Type | Description | Default Value | Required
 | Name a| String |  ID used to reference this configuration. |  | x
-| Base Uri a| String |  Uri of your Hyperscience instance. |  |
-| Authorization a| String |  API Token. |  | x
- 
+| Base Uri a| String |  URI of your Hyperscience instance. |  |
+| Authorization a| String |  API token. |  | x
+
 | Proxy Configuration a| One of:
- 
+
 * <<Proxy>>
 * None | Configures a proxy for outbound connections. |  |
 | TLS Configuration a| <<TLS>> |  Configures TLS. If using the HTTPS protocol, you must configure TLS.  |  |
-| Default Headers a| Array of <<DefaultHeader>>. |  |  |
-| Default Query Parameters a| Array of <<DefaultQueryParam>>. |  |  |
+| Default Headers a| Array of <<default-header>>. |  |  |
+| Default Query Parameters a| Array of <<default-query-param>>. |  |  |
 | Connection Timeout a| Number |  How long the connector waits before timing out when establishing a connection to the remote service. |  30 |
 | Connection Timeout Unit a| Enumeration, one of:
- 
-** NANOSECONDS
-** MICROSECONDS
-** MILLISECONDS
-** SECONDS
-** MINUTES
-** HOURS
-** DAYS |  Time unit for the *Connection Timeout* field. |  SECONDS |
+
+** `NANOSECONDS`
+** `MICROSECONDS`
+** `MILLISECONDS`
+** `SECONDS`
+** `MINUTES`
+** `HOURS`
+** `DAYS` |  Time unit for the *Connection Timeout* field. |  `SECONDS` |
 | Use Persistent Connections a| Boolean |  Indicates whether to use persistent connections:
- 
-* `true`
- 
-Mule uses persistent connections.
- 
-* `false`
- 
-Mule closes the connection after the first request completes. |  true |
+
+* `true`: Mule uses persistent connections.
+
+* `false`: Mule closes the connection after the first request completes. |  true |
 | Max Connections a| Number |  Maximum number of connections to open to the backend. HTTP requests are sent in parallel over multiple connections. Setting this value too high can impact latency and consume additional resources without increasing throughput. |  -1 |
-| Connection Idle Timeout a| Number |  When persistent connections are enabled, how long a connection can remain idle before Mule closes it. |  30 |
+| Connection Idle Timeout a| Number |  When `Use Persistent Connections` is set to `true`, specifies how long a connection can remain idle before Mule closes it. |  30 |
 | Connection Idle Timeout Unit a| Enumeration, one of:
- 
-** NANOSECONDS
-** MICROSECONDS
-** MILLISECONDS
-** SECONDS
-** MINUTES
-** HOURS
-** DAYS |  Time unit for the *Connection Idle Timeout* field. |  SECONDS |
-| Stream Response a| Boolean |  If this value is `true`, Mule streams received responses. |  false |
+
+** `NANOSECONDS`
+** `MICROSECONDS`
+** `MILLISECONDS`
+** `SECONDS`
+** `MINUTES`
+** `HOURS`
+** `DAYS` |  Time unit for the *Connection Idle Timeout* field. |  `SECONDS` |
+| Stream Response a| Boolean |  If set to `true`, Mule streams received responses. |  false |
 | Response Buffer Size a| Number |  Size of the buffer that stores the HTTP response, in bytes. |  -1 |
-| Reconnection a| <<Reconnection>> |  Configures a reconnection strategy to use when a connector operation fails to connect to an external server. |  |
+| Reconnection a| <<reconnection>> |  Configures a reconnection strategy to use when a connector operation fails to connect to an external server. |  |
 |===
- 
+
 [[config_custom-authentication-api]]
 === Custom Authentication Connection Provider
- 
+
 Uses a custom internal authentication mechanism to connect.
- 
+
 [%header,cols="20s,25a,30a,15a,10a"]
 |===
 | Name | Type | Description | Default Value | Required
 | Name a| String |  ID used to reference this configuration. |  | x
-| Client Id a| String |  Client Id. |  | x
+| Client ID a| String |  Client ID. |  | x
 | Client Secret a| String |  Client Secret. |  | x
 | Auth server a| String |  Authentication server domain. |  | x
-| Domain a| String | Domain of Hyperscience Instance. |  | x
-| Default Headers a| Array of <<DefaultHeader>>. |  |  |
-| Default Query Parameters a| Array of <<DefaultQueryParam>>. |  |  |
+| Domain a| String | Domain of the Hyperscience instance. |  | x
+| Default Headers a| Array of <<default-header>>. |  |  |
+| Default Query Parameters a| Array of <<default-query-param>>. |  |  |
 | Connection Timeout a| Number |  How long the connector waits before timing out when establishing a connection to the remote service. |  30 |
 | Connection Timeout Unit a| Enumeration, one of:
- 
-** NANOSECONDS
-** MICROSECONDS
-** MILLISECONDS
-** SECONDS
-** MINUTES
-** HOURS
-** DAYS |  Time unit for the *Connection Timeout* field. |  SECONDS |
+
+** `NANOSECONDS`
+** `MICROSECONDS`
+** `MILLISECONDS`
+** `SECONDS`
+** `MINUTES`
+** `HOURS`
+** `DAYS` |  Time unit for the *Connection Timeout* field. |  `SECONDS` |
 | Use Persistent Connections a| Boolean |  Indicates whether to use persistent connections:
- 
-* `true`
- 
-Mule uses persistent connections.
- 
-* `false`
- 
-Mule closes the connection after the first request completes. |  true |
+
+* `true`: Mule uses persistent connections.
+
+* `false`: Mule closes the connection after the first request completes. |  true |
 | Max Connections a| Number |  Maximum number of connections to open to the backend. HTTP requests are sent in parallel over multiple connections. Setting this value too high can impact latency and consume additional resources without increasing throughput. |  -1 |
 | Connection Idle Timeout a| Number |  When persistent connections are enabled, how long a connection can remain idle before Mule closes it. |  30 |
 | Connection Idle Timeout Unit a| Enumeration, one of:
- 
-** NANOSECONDS
-** MICROSECONDS
-** MILLISECONDS
-** SECONDS
-** MINUTES
-** HOURS
-** DAYS |  Time unit for the *Connection Idle Timeout* field. |  SECONDS |
+
+** `NANOSECONDS`
+** `MICROSECONDS`
+** `MILLISECONDS`
+** `SECONDS`
+** `MINUTES`
+** `HOURS`
+** `DAYS` |  Time unit for the *Connection Idle Timeout* field. |  `SECONDS` |
 | Stream Response a| Boolean |  If this value is `true`, Mule streams received responses. |  false |
 | Response Buffer Size a| Number |  Size of the buffer that stores the HTTP response, in bytes. |  -1 |
-| Reconnection a| <<Reconnection>> |  Configures a reconnection strategy to use when a connector operation fails to connect to an external server. |  |
+| Reconnection a| <<reconnection>> |  Configures a reconnection strategy to use when a connector operation fails to connect to an external server. |  |
 |===
- 
+
 == Operations
-* <<SubmissionsCreateJson>>
-* <<SubmissionsList>>
-* <<SubmissionsRetrieve>>
-* <<Unauthorize>>
- 
- 
-[[SubmissionsCreate]]
-== Submission Create Json
+* <<submissions-create-json>>
+* <<submissions-list>>
+* <<submissions-retrieve>>
+* <<unauthorize>>
+
+
+[[submissions-create-json]]
+== Submission Create JSON
 `<hyperscience:submissions-create-json>`
- 
- 
-Creates a submission using JSON payload. This operation makes an HTTP POST request to the api/v5/submissions endpoint.
- 
+
+
+Creates a submission using a JSON payload. This operation makes an HTTP POST request to the `api/v5/submissions` endpoint.
+
 === Parameters
- 
-[%header%autowidth.spread]
+
+[%header,cols="20s,25a,30a,15a,10a"]
 |===
 | Name | Type | Description | Default Value | Required
-| Configuration | String | Name of the configuration to use. | | x
-| Body a| Any | Content to use. |  #[payload] |
-| Config Ref a| ConfigurationProvider |  Name of the configuration to use to execute this component. |  | x
-| Streaming Strategy a| * <<RepeatableInMemoryStream>>
-* <<RepeatableFileStoreStream>>
-* non-repeatable-stream |  Configures how Mule processes streams. Repeatable streams are the default behavior. |  |
-| Custom Query Parameters a| Object | Custom query parameters to include in the request. The specified query parameters are merged with the default query parameters that are specified in the configuration. |  |
-| Custom Headers a| Object | Custom headers to include in the request. The specified custom headers are merged with the default headers that are specified in the configuration. |  |
+| Configuration | String | `Name` of the configuration to use. | | x
+| Body a| Object | Content to use. |  `#[payload]` |
+| Config Ref a| ConfigurationProvider |  `Name` of the configuration to use to execute this component. |  | x
+| Streaming Strategy a| * <<repeatable-in-memory-stream>>
+* <<repeatable-file-store-stream>>
+* <<non-repeatable-stream>> |  Configures how Mule processes streams. Repeatable streams are the default behavior. | <<repeatable-file-store-stream>> |
+| Custom Query Parameters a| Object | Custom query parameters to include in the request. The query parameters specified here are merged with the default query parameters that are specified in the configuration. |  |
+| Custom Headers a| Object | Custom headers to include in the request. The custom headers specified here are merged with the default headers that are specified in the configuration. |  |
 | Response Timeout a| Number |  How long Mule waits for a response to complete before the request times out. |  |
 | Response Timeout Unit a| Enumeration, one of:
- 
-** NANOSECONDS
-** MICROSECONDS
-** MILLISECONDS
-** SECONDS
-** MINUTES
-** HOURS
-** DAYS |  Time unit for the *Response Timeout* field. |  |
+
+** `NANOSECONDS`
+** `MICROSECONDS`
+** `MILLISECONDS`
+** `SECONDS`
+** `MINUTES`
+** `HOURS`
+** `DAYS` |  Time unit for the *Response Timeout* field. |  |
 | Streaming Type a| Enumeration, one of:
- 
-** AUTO
-** ALWAYS
-** NEVER |  How the connector streams request content to the remote service:
- 
-* `AUTO` (default)
- 
-Connector automatically uses the best streaming strategy based on the request content.
- 
-* `ALWAYS`
- 
-Connector always streams the request content.
- 
-* `NEVER`
- 
-Connector does not stream the request content. |  |
+
+** `AUTO`
+** `ALWAYS`
+** `NEVER` |  How the connector streams request content to the remote service:
+
+* `AUTO` (default): Connector automatically uses the best streaming strategy based on the request content.
+
+* `ALWAYS`: Connector always streams the request content.
+
+* `NEVER`: Connector does not stream the request content. |  |
 | Target Variable a| String |  Name of the variable that stores the operation's output. |  |
 | Target Value a| String |  Expression that evaluates the operation's output. The outcome of the expression is stored in the *Target Variable* field. |  #[payload] |
-| Reconnection Strategy a| * <<Reconnect>>
-* <<ReconnectForever>> |  Retry strategy in case of connectivity errors. |  |
+| Reconnection Strategy a| * <<reconnect>>
+* <<reconnect-forever>> |  Retry strategy in case of connectivity errors. |  |
 |===
- 
+
 === Output
- 
+
 [%autowidth.spread]
 |===
-|Type |Any
-| Attributes Type a| <<HttpResponseAttributes>>
+|Type | Object
 |===
- 
+
+
 === For Configurations
- 
+
 * <<hyperscience-configuration>>
- 
+
 === Throws
- 
-* HYPERSCIENCE:BAD_REQUEST
-* HYPERSCIENCE:CLIENT_ERROR
-* HYPERSCIENCE:CONNECTIVITY
-* HYPERSCIENCE:INTERNAL_SERVER_ERROR
-* HYPERSCIENCE:NOT_FOUND
-* HYPERSCIENCE:SERVER_ERROR
-* HYPERSCIENCE:UNAUTHORIZED
-* HYPERSCIENCE:UNSUPPORTED_MEDIA_TYPE
- 
-[[SubmissionsRetrieve]]
-== Submission Retriete
+
+* `HYPERSCIENCE:BAD_REQUEST`
+* `HYPERSCIENCE:CLIENT_ERROR`
+* `HYPERSCIENCE:CONNECTIVITY`
+* `HYPERSCIENCE:INTERNAL_SERVER_ERROR`
+* `HYPERSCIENCE:NOT_FOUND`
+* `HYPERSCIENCE:SERVER_ERROR`
+* `HYPERSCIENCE:UNAUTHORIZED`
+* `HYPERSCIENCE:UNSUPPORTED_MEDIA_TYPE`
+
+[[submissions-retrieve]]
+== Submission Retrieve
 `<hyperscience:submissions-retrieve>`
- 
- 
-Retrieves a submission using the submission id. This operation makes an HTTP GET request to the api/v5/submissions/{id} endpoint.
- 
+
+Retrieves a submission using the Submission `id`. This operation makes an HTTP GET request to the `api/v5/submissions/{id}` endpoint.
+
 === Parameters
- 
-[%header%autowidth.spread]
+
+[%header,cols="20s,25a,30a,15a,10a"]
 |===
 | Name | Type | Description | Default Value | Required
-| Config Ref a| ConfigurationProvider |  Name of the configuration to use to execute this component. |  | x
-| id a| String | Submission Id. |  | x
-| flat a| Boolean | Optional parameter that prevents returning the documents, document_folders, unassigned_pages, and rejected_documents arrays of the Submission object. Defaults to true unless specifically passed as false. | False | x
-| Streaming Strategy a| * <<RepeatableInMemoryStream>>
-* <<RepeatableFileStoreStream>>
-* non-repeatable-stream |  Configures how Mule processes streams. Repeatable streams are the default behavior. |  |
-| Custom Query Parameters a| Object | Custom query parameters to include in the request. The specified query parameters are merged with the default query parameters that are specified in the configuration. |  |
-| Custom Headers a| Object | Custom headers to include in the request. The specified custom headers are merged with the default headers that are specified in the configuration. |  |
+| Config Ref a| ConfigurationProvider |  `Name` of the configuration to use to execute this component. |  | x
+| id a| String | Submission `id`. |  | x
+| flat a| Boolean | Optional parameter that prevents returning the `documents`, `document_folders`, `unassigned_pages`, and `rejected_documents` arrays of the Submission object. Defaults to true unless specifically set to `false`. | False | x
+| Streaming Strategy a| * <<repeatable-in-memory-stream>>
+* <<repeatable-file-store-stream>>
+* <<non-repeatable-stream>> |  Configures how Mule processes streams. Repeatable streams are the default behavior. | <<repeatable-file-store-stream>> |
+| Custom Query Parameters a| Object | Custom query parameters to include in the request. The query parameters specified here are merged with the default query parameters that are specified in the configuration. |  |
+| Custom Headers a| Object | Custom headers to include in the request. The custom headers specified here are merged with the default headers that are specified in the configuration. |  |
 | Response Timeout a| Number |  How long Mule waits for a response to complete before the request times out. |  |
 | Response Timeout Unit a| Enumeration, one of:
- 
-** NANOSECONDS
-** MICROSECONDS
-** MILLISECONDS
-** SECONDS
-** MINUTES
-** HOURS
-** DAYS |  Time unit for the *Response Timeout* field. |  |
+
+** `NANOSECONDS`
+** `MICROSECONDS`
+** `MILLISECONDS`
+** `SECONDS`
+** `MINUTES`
+** `HOURS`
+** `DAYS` |  Time unit for the *Response Timeout* field. |  |
 | Streaming Type a| Enumeration, one of:
- 
-** AUTO
-** ALWAYS
-** NEVER |  How the connector streams request content to the remote service:
- 
-* `AUTO` (default)
- 
-Connector automatically uses the best streaming strategy based on the request content.
- 
-* `ALWAYS`
- 
-Connector always streams the request content.
- 
-* `NEVER`
- 
-Connector does not stream the request content. |  |
+
+** `AUTO`
+** `ALWAYS`
+** `NEVER` |  How the connector streams request content to the remote service:
+
+* `AUTO` (default): Connector automatically uses the best streaming strategy based on the request content.
+
+* `ALWAYS`: Connector always streams the request content.
+
+* `NEVER`: Connector does not stream the request content. |  |
 | Target Variable a| String |  Name of the variable that stores the operation's output. |  |
-| Target Value a| String |  Expression that evaluates the operation's output. The outcome of the expression is stored in the *Target Variable* field. |  #[payload] |
-| Reconnection Strategy a| * <<Reconnect>>
-* <<ReconnectForever>> |  Retry strategy in case of connectivity errors. |  |
+| Target Value a| String |  Expression that evaluates the operation's output. The outcome of the expression is stored in the *Target Variable* field. |  `#[payload]` |
+| Reconnection Strategy a| * <<reconnect>>
+* <<reconnect-forever>> |  Retry strategy in case of connectivity errors. |  |
 |===
- 
+
 === Output
- 
+
 [%autowidth.spread]
 |===
-|Type |Any
-| Attributes Type a| <<HttpResponseAttributes>>
+|Type | Object
 |===
- 
+
 === For Configurations
- 
+
 * <<hyperscience-configuration>>
- 
+
 === Throws
-* HYPERSCIENCE:CLIENT_ERROR
-* HYPERSCIENCE:CONNECTIVITY
-* HYPERSCIENCE:INTERNAL_SERVER_ERROR
-* HYPERSCIENCE:NOT_FOUND
-* HYPERSCIENCE:SERVER_ERROR
-* HYPERSCIENCE:UNAUTHORIZED
-* HYPERSCIENCE:UNSUPPORTED_MEDIA_TYPE
- 
-[[SubmissionsList]]
+* `HYPERSCIENCE:CLIENT_ERROR`
+* `HYPERSCIENCE:CONNECTIVITY`
+* `HYPERSCIENCE:INTERNAL_SERVER_ERROR`
+* `HYPERSCIENCE:NOT_FOUND`
+* `HYPERSCIENCE:SERVER_ERROR`
+* `HYPERSCIENCE:UNAUTHORIZED`
+* `HYPERSCIENCE:UNSUPPORTED_MEDIA_TYPE`
+
+[[submissions-list]]
 == Submissions List
 `<hyperscience:submissions-list>`
- 
- 
-Retrieves submissions. This operation makes an HTTP GET request to the api/v5/submissionsendpoint.
- 
+
+Retrieves submissions. This operation makes an HTTP GET request to the api/v5/submissions endpoint.
+
 === Parameters
- 
-[%header%autowidth.spread]
+
+[%header,cols="20s,25a,30a,15a,10a"]
 |===
 | Name | Type | Description | Default Value | Required
-| Config Ref a| ConfigurationProvider |  Name of the configuration to use to execute this component. |  | x
-| Complete time gte a| DateTime | Filter for Submissions that were ingested into the application on or after a specific date and time (greater than or equal to operator). |  |
-| Complete time lt a| DateTime | Filter for Submissions that were ingested into the application before a specific date and time (less than operator). | |
+| Config Ref a| ConfigurationProvider |  `Name` of the configuration to use to execute this component. |  | x
+| Complete time gte a| DateTime | Filter for Submissions that were ingested into the application on or after a specific date and time (“greater than or equal to” operator). |  |
+| Complete time lt a| DateTime | Filter for Submissions that were ingested into the application before a specific date and time (“less than” operator). | |
 | exception a| string | Filters for Submissions that have a specific exception. See link:https://docs.hyperscience.com/#exceptions[Exceptions] for a list of possible values. | |
-| Goal time gte a| DateTime | Filter for Submissions that were created with the goal time parameter whose value is the same or greater than a specific date and time (greater than or equal to operator). | |
-| Goal time lt a| DateTime | Filter for Submissions that were created with the goal time parameter whose value is before a specific date and time (less than operator). | |
-| halted a| Boolean | Filters for Submissions based on halted state. Possible values are true or false.| |
-| id a| Submission Id | Filters for Submissions based on its id| |
-| layout a| String | Filters for submissions that are related to a certain layout | |
-| layout tag a| String | Filters for Submissions containing Documents that matched to a layout with a specified layout tag.| |
-| limit a| Number | Number of results to return per Page.| 60 |
+| Goal time gte a| DateTime | Filter for Submissions that were created with the `goal-time` parameter whose value is the same or greater than a specific date and time (“greater than or equal to” operator). | |
+| Goal time lt a| DateTime | Filter for Submissions that were created with the goal-time parameter whose value is before a specific date and time (“less than” operator). | |
+| halted a| Boolean | Filters for Submissions that are in a halted state.| |
+| id a| Submission Id | Filters for Submissions based on their `id`s| |
+| layout a| String | Filters for Submissions whose Documents are matched to a certain layout | |
+| layout tag a| String | Filters for Submissions containing Documents that matched to a layout with the specified layout tag.| |
+| limit a| Number | Number of results to return per page.| 60 |
 | offset a| Number | The initial index from which to return the results.| |
-| Start time gte a| DateTime | Filter for Submissions that were ingested into the application on or after a specific date and time (greater than or equal to operator).|  |
-| Start time lt a| DateTime | Filter for Submissions that were ingested into the application before a specific date and time (less than operator).|  |
+| Start time gte a| DateTime | Filter for Submissions that were ingested into the application on or after a specific date and time (“greater than or equal to” operator).|  |
+| Start time lt a| DateTime | Filter for Submissions that were ingested into the application before a specific date and time (“less than” operator).|  |
 | state a| String | Filters for Submissions that are in a specific state. See link:https://docs.hyperscience.com/#substates[Substates] for a list of possible values.| |
-| substate a| String | Filters for Submissions that are in a specific substate. See Substates for a list of possible values.| |
-| Streaming Strategy a| * <<RepeatableInMemoryStream>>
-* <<RepeatableFileStoreStream>>
-* non-repeatable-stream |  Configures how Mule processes streams. Repeatable streams are the default behavior. |  |
-| Custom Query Parameters a| Object | Custom query parameters to include in the request. The specified query parameters are merged with the default query parameters that are specified in the configuration. |  |
-| Custom Headers a| Object | Custom headers to include in the request. The specified custom headers are merged with the default headers that are specified in the configuration. |  |
+| substate a| String | Filters for Submissions that are in a specific substate. See link:https://docs.hyperscience.com/#substates[Substates] for a list of possible values.| |
+| Streaming Strategy a| * <<repeatable-in-memory-stream>>
+* <<repeatable-file-store-stream>>
+* <<non-repeatable-stream>> |  Configures how Mule processes streams. Repeatable streams are the default behavior. | <<repeatable-file-store-stream>> |
+| Custom Query Parameters a| Object | Custom query parameters to include in the request. The query parameters specified here are merged with the default query parameters that are specified in the configuration. |  |
+| Custom Headers a| Object | Custom headers to include in the request. The custom headers specified here are merged with the default headers that are specified in the configuration. |  |
 | Response Timeout a| Number |  How long Mule waits for a response to complete before the request times out. |  |
 | Response Timeout Unit a| Enumeration, one of:
- 
-** NANOSECONDS
-** MICROSECONDS
-** MILLISECONDS
-** SECONDS
-** MINUTES
-** HOURS
-** DAYS |  Time unit for the *Response Timeout* field. |  |
+
+** `NANOSECONDS`
+** `MICROSECONDS`
+** `MILLISECONDS`
+** `SECONDS`
+** `MINUTES`
+** `HOURS`
+** `DAYS` |  Time unit for the *Response Timeout* field. |  |
 | Streaming Type a| Enumeration, one of:
- 
-** AUTO
-** ALWAYS
-** NEVER |  How the connector streams request content to the remote service:
- 
-* `AUTO` (default)
- 
-Connector automatically uses the best streaming strategy based on the request content.
- 
-* `ALWAYS`
- 
-Connector always streams the request content.
- 
-* `NEVER`
- 
-Connector does not stream the request content. |  |
+
+** `AUTO`
+** `ALWAYS`
+** `NEVER` |  How the connector streams request content to the remote service:
+
+* `AUTO` (default): Connector automatically uses the best streaming strategy based on the request content.
+
+* `ALWAYS`: Connector always streams the request content.
+
+* `NEVER`: Connector does not stream the request content. |  |
 | Target Variable a| String |  Name of the variable that stores the operation's output. |  |
-| Target Value a| String |  Expression that evaluates the operation's output. The outcome of the expression is stored in the *Target Variable* field. |  #[payload] |
-| Reconnection Strategy a| * <<Reconnect>>
-* <<ReconnectForever>> |  Retry strategy in case of connectivity errors. |  |
+| Target Value a| String |  Expression that evaluates the operation's output. The outcome of the expression is stored in the *Target Variable* field. |  `#[payload]` |
+| Reconnection Strategy a| * <<reconnect>>
+* <<reconnect-forever>> |  Retry strategy in case of connectivity errors. |  |
 |===
- 
+
 === Output
- 
 [%autowidth.spread]
 |===
-|Type |Any
-| Attributes Type a| <<HttpResponseAttributes>>
+|Type | Object
 |===
- 
+
 === For Configurations
- 
+
 * <<hyperscience-configuration>>
- 
+
 === Throws
-* HYPERSCIENCE:CLIENT_ERROR
-* HYPERSCIENCE:CONNECTIVITY
-* HYPERSCIENCE:INTERNAL_SERVER_ERROR
-* HYPERSCIENCE:SERVER_ERROR
-* HYPERSCIENCE:UNAUTHORIZED
-* HYPERSCIENCE:UNSUPPORTED_MEDIA_TYPE
- 
-[[Unauthorize]]
+* `HYPERSCIENCE:CLIENT_ERROR`
+* `HYPERSCIENCE:CONNECTIVITY`
+* `HYPERSCIENCE:INTERNAL_SERVER_ERROR`
+* `HYPERSCIENCE:SERVER_ERROR`
+* `HYPERSCIENCE:UNAUTHORIZED`
+* `HYPERSCIENCE:UNSUPPORTED_MEDIA_TYPE`
+
+[[unauthorize]]
 == Unauthorize
 `<hyperscience:unauthorize>`
- 
- 
-Deletes all the access token information of a given resource owner ID so that it is impossible to execute any operation for that user without doing the authorization dance again.
- 
- 
+
+Deletes all the access-token information of a given resource-owner ID. After this deletion, it is impossible to
+execute any operation for the resource owner without completing the authorization dance again.
+
 === Parameters
- 
-[%header%autowidth.spread]
+
+[%header,cols="20s,25a,30a,15a,10a"]
 |===
 | Name | Type | Description | Default Value | Required
-| Configuration | String | Name of the configuration to use. | | x
+| Configuration | String | `Name` of the configuration to use. | | x
 | Resource Owner Id a| String |  ID of the resource owner for whom to invalidate access. |  |
-| Config Ref a| ConfigurationProvider |  Name of the configuration to use to execute this component. |  | x
+| Config Ref a| ConfigurationProvider |  `Name` of the configuration to use to execute this component. |  | x
 |===
- 
- 
- 
- 
+
 == Types
-[[DefaultHeader]]
+[[default-header]]
 === Default Header
- 
+
 Headers automatically added to every outbound request.
- 
+
 [%header,cols="20s,25a,30a,15a,10a"]
 |===
 | Field | Type | Description | Default Value | Required
 | Key a| String | Key for this type. |  | x
 | Value a| String | Value for this type. |  | x
 |===
- 
-[[DefaultQueryParam]]
+
+[[default-query-param]]
 === Default Query Param
- 
+
 Query parameters automatically added to every outbound request.
- 
+
 [%header,cols="20s,25a,30a,15a,10a"]
 |===
 | Field | Type | Description | Default Value | Required
 | Key a| String | Key for this type. |  | x
 | Value a| String | Value for this type. |  | x
 |===
- 
-[[Proxy]]
+
+[[proxy]]
 === Proxy
- 
+
 Configures a proxy for outbound connections.
- 
+
 [%header,cols="20s,25a,30a,15a,10a"]
 |===
 | Field | Type | Description | Default Value | Required
@@ -516,12 +467,50 @@ Configures a proxy for outbound connections.
 | Password a| String | Password to authenticate against the proxy server. |  |
 | Non Proxy Hosts a| String | Comma-separated list of hosts that the proxy must not be used against. |  |
 |===
- 
-[[TrustStore]]
+
+[[tls]]
+=== TLS
+
+Configures TLS to provide secure communications for the Mule app.
+
+[%header,cols="20s,25a,30a,15a,10a"]
+|===
+| Field | Type | Description | Default Value | Required
+| Enabled Protocols a| String | Comma-separated list of protocols enabled for this context. |  |
+| Enabled Cipher Suites a| String | Comma-separated list of cipher suites enabled for this context. |  |
+| Trust Store a| <<trust-store>> | Configures the TLS truststore. |  |
+| Key Store a| <<key-store>> | Configures the TLS keystore. |  |
+| Revocation Check a| * <<standard-revocation-check>>
+* <<custom-ocsp-responder>>
+* <<crl-file>> | Configures a revocation-checking mechanism. |  |
+|===
+
+[[key-store]]
+=== Key Store
+
+Configures the keystore for the TLS protocol. The keystore you generate contains a private key and a public certificate.
+
+[%header,cols="20s,25a,30a,15a,10a"]
+|===
+| Field | Type | Description | Default Value | Required
+| Path a| String | Path to the keystore. Mule resolves the path relative to the current classpath and file system. |  |
+| Type a| String | Type of keystore. |  |
+| Alias a| String | Alias of the key to use when the keystore contains multiple private keys. By default, Mule uses the first key in the file. |  |
+| Key Password a| String | Password used to protect the private key. |  |
+| Password a| String | Password used to protect the keystore. |  |
+| Algorithm a| String | Encryption algorithm that the keystore uses. |  |
+|===
+
+[[non-repeatable-stream]]
+=== Non-Repeatable Stream
+
+Disables the repeatable stream functionality and uses non-repeatable streams, resulting in lower performance overhead, memory use, and cost.
+
+[[trust-store]]
 === Trust Store
- 
+
 Configures the truststore for TLS.
- 
+
 [%header,cols="20s,25a,30a,15a,10a"]
 |===
 | Field | Type | Description | Default Value | Required
@@ -529,75 +518,166 @@ Configures the truststore for TLS.
 | Password a| String | Password used to protect the truststore. |  |
 | Type a| String | Type of truststore. |  |
 | Algorithm a| String | Encryption algorithm that the truststore uses. |  |
-| Insecure a| Boolean | If `true`, Mule stops performing certificate validations. Setting this to `true` can make connections vulnerable to attacks. |  |
+| Insecure a| Boolean | If `true`, Mule stops performing certificate validations. Setting this field to `true` can make connections vulnerable to attacks. |  |
 |===
- 
+
 [[reconnect]]
 === Reconnect
- 
+
 Configures a standard reconnection strategy, which specifies how often to reconnect and how many reconnection attempts the connector source or operation can make.
- 
+
 [%header,cols="20s,25a,30a,15a,10a"]
 |===
 | Field | Type | Description | Default Value | Required
-| Frequency a| Number | How often to attempt to reconnect, in milliseconds. |  |
+| Frequency a| Number | How often to attempt to reconnect, in `MILLISECONDS`. |  |
 | Blocking a| Boolean | If `false`, the reconnection strategy runs in a separate, non-blocking thread. |  |
 | Count a| Number | How many reconnection attempts the Mule app can make. |  |
 |===
- 
+
 [[reconnect-forever]]
 === Reconnect Forever
- 
+
 Configures a forever reconnection strategy by which the connector source or operation attempts to reconnect at a specified frequency for as long as the Mule app runs.
- 
+
 [%header,cols="20s,25a,30a,15a,10a"]
 |===
 | Field | Type | Description | Default Value | Required
-| Frequency a| Number | How often to attempt to reconnect, in milliseconds. |  |
+| Frequency a| Number | How often to attempt to reconnect, in `MILLISECONDS`. |  |
 | Blocking a| Boolean | If `false`, the reconnection strategy runs in a separate, non-blocking thread. |  |
 |===
- 
-[[Reconnection]]
+
+[[reconnection]]
 === Reconnection
- 
+
 Configures a reconnection strategy for an operation.
- 
+
 [%header,cols="20s,25a,30a,15a,10a"]
 |===
 | Field | Type | Description | Default Value | Required
 | Fails Deployment a| Boolean a| What to do if, when an app is deployed, a connectivity test does not pass after exhausting the associated reconnection strategy:
- 
-* `true`
-+
-Allow the deployment to fail.
- 
-* `false`
-+
-Ignore the results of the connectivity test. |  |
+
+* `true`: Allow the deployment to fail.
+
+* `false`: Ignore the results of the connectivity test. |  |
 | Reconnection Strategy a| * <<reconnect>>
 * <<reconnect-forever>> | Reconnection strategy to use. |  |
 |===
- 
-[[ExpirationPolicy]]
+
+[[expiration-policy]]
 === Expiration Policy
- 
+
 Configures an expiration policy strategy.
- 
+
 [%header,cols="20s,25a,30a,15a,10a"]
 |===
 | Field | Type | Description | Default Value | Required
 | Max Idle Time a| Number | Configures the maximum amount of time that a dynamic configuration instance can remain idle before Mule considers it eligible for expiration. |  |
 | Time Unit a| Enumeration, one of:
- 
-** NANOSECONDS
-** MICROSECONDS
-** MILLISECONDS
-** SECONDS
-** MINUTES
-** HOURS
-** DAYS | Time unit for the *Max Idle Time* field. |  |
+
+** `NANOSECONDS`
+** `MICROSECONDS`
+** `MILLISECONDS`
+** `SECONDS`
+** `MINUTES`
+** `HOURS`
+** `DAYS` | Time unit for the *Max Idle Time* field. |  |
 |===
- 
- 
- 
- 
+
+[[repeatable-file-store-stream]]
+=== Repeatable File Store Stream
+
+Configures the repeatable file-store streaming strategy by which Mule keeps a portion of the stream content in memory. If the stream content is larger than the configured buffer size, Mule backs up the buffer's content to disk and then clears the memory.
+
+[%header,cols="20s,25a,30a,15a,10a"]
+|===
+| Field | Type | Description | Default Value | Required
+| In Memory Size a| Number a| Maximum amount of memory that the stream can use for data. If the amount of memory exceeds this value, Mule buffers the content to disk. To optimize performance:
+
+* Configure a larger buffer size to reduce the number of times Mule needs to write the buffer on disk. Doing so increases performance, but it also requires additional memory, which limits the number of concurrent requests your application can process.
+
+* Configure a smaller buffer size to decrease memory load at the expense of response time. |  |
+| Buffer Unit a| Enumeration, one of:
+
+** `BYTE`
+** `KB`
+** `MB`
+** `GB` | Unit for the *In Memory Size* field. |  |
+|===
+
+[[repeatable-in-memory-stream]]
+=== Repeatable In-Memory Stream
+
+Configures the in-memory streaming strategy by which the request fails if the data exceeds the MAX buffer size. Always run performance tests to find the optimal buffer size for your specific use case.
+
+[%header,cols="20s,25a,30a,15a,10a"]
+|===
+| Field | Type | Description | Default Value | Required
+| Initial Buffer Size a| Number | Initial amount of memory to allocate to the data stream. If the size of the streamed data exceeds this value, the buffer expands by *Buffer Size Increment*, with an upper limit of *Max In Memory Size* value. |  |
+| Buffer Size Increment a| Number | Amount by which the buffer size expands if its initial size is smaller than the size of the data stream. Setting a value of `0` or lower prevents the buffer from expanding. |  |
+| Max Buffer Size a| Number | Maximum size of the buffer. If the buffer size exceeds this value, Mule raises a `STREAM_MAXIMUM_SIZE_EXCEEDED` error. A value of less than or equal to `0` indicates that there is no maximum size limit. |  |
+| Buffer Unit a| Enumeration, one of:
+
+** `BYTE`
+** `KB`
+** `MB`
+** `GB` | Unit for the *Initial Buffer Size*, *Buffer Size Increment*, and *Buffer Unit* fields. |  |
+|===
+
+[[non-repeatable-stream]]
+=== Non-Repeatable Stream
+
+Disables the repeatable stream functionality and uses non-repeatable streams, reducing performance overhead, memory usage, and cost.
+
+[[crl-file]]
+=== CRL File
+
+Specifies the location of the Certification Revocation List (CRL) file.
+
+[%header,cols="20s,25a,30a,15a,10a"]
+|===
+| Field | Type | Description | Default Value | Required
+| Path a| String | Path to the CRL file. |  |
+|===
+
+[[custom-ocsp-responder]]
+=== Custom OCSP Responder
+
+Configures a custom Online Certificate Status Protocol (OCSP) responder for certification-revocation checks.
+
+[%header,cols="20s,25a,30a,15a,10a"]
+|===
+| Field | Type | Description | Default Value | Required
+| Url a| String | URL of the OCSP responder. |  |
+| Cert Alias a| String | Alias of the signing certificate for the OCSP response. If specified, the alias must be in the truststore. |  |
+|===
+
+[[standard-revocation-check]]
+=== Standard Revocation Check
+
+Configures standard revocation checks for TLS certificates.
+
+[%header,cols="20s,25a,30a,15a,10a"]
+|===
+| Field | Type | Description | Default Value | Required
+| Only End Entities a| Boolean a| Which elements to verify in the certificate chain:
+
+* `true`: Verify only the last element in the certificate chain.
+
+* `false`: Verify all elements in the certificate chain. |  |
+| Prefer Crls a| Boolean a| How to check certificate validity:
+
+* `true`: Check the Certification Revocation List (CRL) for certificate validity.
+
+* `false`: Use the Online Certificate Status Protocol (OCSP) to check certificate validity. |  |
+| No Fallback a| Boolean a| Whether to use the secondary method to check certificate validity:
+
+* `true`: Use the method that was not specified in the *Prefer Crls* field (i.e., the secondary method) to check certificate validity.
+
+* `false`: Do not use the secondary method to check certificate validity. |  |
+| Soft Fail a| Boolean a| What to do if the revocation server cannot be reached or is busy:
+
+* `true`: Avoid verification failure.
+
+* `false`: Allow the verification to fail. |  |
+|===
+
