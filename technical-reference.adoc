@@ -154,7 +154,7 @@ This is the default authentication method for SaaS instances.
 
 In order to properly authenticate using this method follow these steps:
 
-. Create an API account at Users > API Accounts.
+. In the application, create an API account at **Users** > **API Accounts**.
 . Copy the client ID and account password. You will not be able to access the account password after account creation.
 . Use your client ID in the Client ID field.
 . Use your account password in the Client Secret field
