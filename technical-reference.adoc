@@ -150,16 +150,16 @@ Uses a token to authenticate the connection.
 
 Uses a custom internal authentication mechanism to connect.
 
-This is the default authentication method for SaaS instances. 
+This internal mechanism is the default authentication method for SaaS instances. 
 
-In order to properly authenticate using this method follow these steps:
+In order to properly authenticate using this method, follow these steps:
 
 . In the application, create an API account at **Users** > **API Accounts**.
 . Copy the client ID and account password. You will not be able to access the account password after account creation.
-. Use your client ID in the Client ID field.
-. Use your account password in the Client Secret field
+. Enter your client ID in the **Client ID** field.
+. Enter your account password in the **Client Secret** field.
 . For Auth Server, use the domain of the authentication server, i.e., login.hyperscience.net.
-. For Domain, use the domain of the instance where HS app is hosted.
+. In the **Domain** field, enter the domain of the instance where the Hyperscience application is hosted (e.g., `example.hyperscience.net`).
 
 For more information, see link:https://hyperscience.zendesk.com/hc/en-us/articles/4406939125133[API Access for SaaS Instances].
 
